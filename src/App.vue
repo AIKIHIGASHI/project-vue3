@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>ToDoリスト</h1>
+    <input type="radio" name="type" />すべて
+    <input type="radio" name="type" />作業中
+    <input type="radio" name="type" />完了
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>コメント</th>
+          <th>状態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(todo, index) in todos" :key="index">
+          <td>{{ index }}</td>
+          <td>{{ todo.comment }}</td>
+          <td>
+            <button>{{ todo.status }}</button>
+          </td>
+          <th>
+            <button>削除</button>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>新規タスクの追加</h2>
+    <input id="task" type="text" v-model="newTask" />
+    <button id="add" @click="addTask()">追加</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      newTask: "",
+      todos: []
+    };
+  },
+  methods: {
+    addTask() {
+      if (this.newTask === "") {
+        alert("未入力です");
+      } else {
+        this.todos.push({ comment: this.newTask, status: "作業中" });
+        this.newTask = "";
+      }
+    }
   }
-}
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <h1>ToDoリスト</h1>
-    <input type="radio" name="type" />すべて
-    <input type="radio" name="type" />作業中
-    <input type="radio" name="type" />完了
+    <input type="radio" name="type" v-model="radio" :value="status.all" />すべて
+    <input type="radio" name="type" v-model="radio" :value="status.doing" />作業中
+    <input type="radio" name="type" v-model="radio" :value="status.done" />完了
     <table>
       <thead>
         <tr>
@@ -13,15 +13,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(todo, index) in todos" :key="todo.id">
-          <td>{{ index }}</td>
+        <tr v-for="todo in generateTodos()" :key="todo.id">
+          <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
-          <td>
-            <button @click="changeStatus(index)">{{ todo.status }}</button>
-          </td>
-          <th>
-            <button @click="deleteTask(index)">削除</button>
-          </th>
+          <td><button @click="changeStatus(todo.id)">{{ todo.status }}</button></td>
+          <td><button @click="deleteTask(todo.id)">削除</button></td>
         </tr>
       </tbody>
     </table>
@@ -35,27 +31,57 @@
 export default {
   data() {
     return {
+      todos: [],
       newTask: "",
-      todos: []
+      taskId: 0,
+      radio: "すべて",
+      status: {
+        all: "すべて",
+        doing: "作業中",
+        done: "完了"
+      }      
     };
   },
   methods: {
+    setTaskId() {
+      this.todos.forEach((todo, index) => {
+        todo.id = index;
+      });
+    },
     addTask() {
       if (this.newTask === "") {
         alert("未入力です");
       } else {
-        this.todos.push({ comment: this.newTask, status: "作業中" });
+        this.todos.push({
+          id: this.taskId,
+          comment: this.newTask,
+          status: this.status.doing
+        });
+        this.taskId++;
         this.newTask = "";
+        this.setTaskId();
       }
     },
-    deleteTask(index) {
-      this.todos.splice(index, 1);
+    deleteTask(id) {
+      this.todos.splice(id, 1);
+      this.setTaskId();
     },
-    changeStatus(index) {
-      if (this.todos[index].status === "作業中") {
-        this.todos[index].status = "完了";
-      } else if (this.todos[index].status === "完了") {
-        this.todos[index].status = "作業中";
+    changeStatus(id) {
+      if (this.todos[id].status === this.status.doing) {
+        this.todos[id].status = this.status.done;
+      } else if (this.todos[id].status === this.status.done) {
+        this.todos[id].status = this.status.doing;
+      }
+    },
+    generateTodos() {
+      if (this.radio === this.status.all) {
+        return this.todos;
+      } else if (this.radio === this.status.doing) {
+        const newTodos = this.todos.filter(todo => todo.status === this.status.doing);
+        return newTodos;
+      } else if (this.radio === this.status.done) {
+        const newTodos = this.todos.filter(todo => todo.status === this.status.done);
+        return newTodos;
       }
     }
   }

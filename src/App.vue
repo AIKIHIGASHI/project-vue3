@@ -13,19 +13,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(todo, index) in todos" :key="index">
+        <tr v-for="(todo, index) in todos" :key="todo.id">
           <td>{{ index }}</td>
           <td>{{ todo.comment }}</td>
           <td>
             <button>{{ todo.status }}</button>
           </td>
           <th>
-            <button>削除</button>
+            <button @click="deleteTask(index)">削除</button>
           </th>
         </tr>
       </tbody>
     </table>
-
     <h2>新規タスクの追加</h2>
     <input id="task" type="text" v-model="newTask" />
     <button id="add" @click="addTask()">追加</button>
@@ -48,6 +47,9 @@ export default {
         this.todos.push({ comment: this.newTask, status: "作業中" });
         this.newTask = "";
       }
+    },
+    deleteTask(index) {
+      this.todos.splice(index, 1);
     }
   }
 };

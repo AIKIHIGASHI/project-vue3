@@ -17,7 +17,7 @@
           <td>{{ index }}</td>
           <td>{{ todo.comment }}</td>
           <td>
-            <button>{{ todo.status }}</button>
+            <button @click="changeStatus(index)">{{ todo.status }}</button>
           </td>
           <th>
             <button @click="deleteTask(index)">削除</button>
@@ -50,6 +50,13 @@ export default {
     },
     deleteTask(index) {
       this.todos.splice(index, 1);
+    },
+    changeStatus(index) {
+      if (this.todos[index].status === "作業中") {
+        this.todos[index].status = "完了";
+      } else if (this.todos[index].status === "完了") {
+        this.todos[index].status = "作業中";
+      }
     }
   }
 };

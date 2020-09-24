@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="todo in generateTodos()" :key="todo.id">
+        <tr v-for="todo in generateTodos" :key="todo.id">
           <td>{{ todo.id }}</td>
           <td>{{ todo.comment }}</td>
           <td><button @click="changeStatus(todo.id)">{{ todo.status }}</button></td>
@@ -73,18 +73,20 @@ export default {
         this.todos[id].status = this.status.doing;
       }
     },
-    generateTodos() {
+  },
+  computed: {
+    generateTodos: function() {
       if (this.radio === this.status.all) {
         return this.todos;
       } else if (this.radio === this.status.doing) {
         const newTodos = this.todos.filter(todo => todo.status === this.status.doing);
         return newTodos;
-      } else if (this.radio === this.status.done) {
+      } else {
         const newTodos = this.todos.filter(todo => todo.status === this.status.done);
         return newTodos;
       }
     }
-  }
+  },
 };
 </script>
 

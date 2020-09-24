@@ -32,13 +32,13 @@ export default {
   data() {
     return {
       todos: [],
-      newTask: "",
+      newTask: '',
       taskId: 0,
-      radio: "すべて",
+      radio: 'すべて',
       status: {
-        all: "すべて",
-        doing: "作業中",
-        done: "完了"
+        all: 'すべて',
+        doing: '作業中',
+        done: '完了'
       }      
     };
   },
@@ -49,8 +49,8 @@ export default {
       });
     },
     addTask() {
-      if (this.newTask === "") {
-        alert("未入力です");
+      if (this.newTask === '') {
+        alert('未入力です');
       } else {
         this.todos.push({
           id: this.taskId,
@@ -58,7 +58,7 @@ export default {
           status: this.status.doing
         });
         this.taskId++;
-        this.newTask = "";
+        this.newTask = '';
         this.setTaskId();
       }
     },

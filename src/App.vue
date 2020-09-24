@@ -49,18 +49,18 @@ export default {
       });
     },
     addTask() {
-      if (this.newTask === '') {
+      if (!this.newTask) {
         alert('未入力です');
-      } else {
-        this.todos.push({
-          id: this.taskId,
-          comment: this.newTask,
-          status: this.status.doing
-        });
-        this.taskId++;
-        this.newTask = '';
-        this.setTaskId();
+        return
       }
+      this.todos.push({
+        id: this.taskId,
+        comment: this.newTask,
+        status: this.status.doing
+      });
+      this.taskId++;
+      this.newTask = '';
+      this.setTaskId();
     },
     deleteTask(id) {
       this.todos.splice(id, 1);
@@ -86,7 +86,7 @@ export default {
         return newTodos;
       }
     }
-  },
+  }
 };
 </script>
 

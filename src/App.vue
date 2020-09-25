@@ -75,7 +75,7 @@ export default {
     },
   },
   computed: {
-    generateTodos: function() {
+    computedTodos() {
       if (this.radio === this.status.all) {
         return this.todos;
       } else if (this.radio === this.status.doing) {
